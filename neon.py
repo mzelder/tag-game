@@ -20,10 +20,10 @@ def make_rect_glow(color: str, size: tuple[int, int], spread: int, intensity: fl
         pygame.draw.rect(surface, scale_color(color, k), rect, border_radius=i + 6)
     return surface
 
-def blit_glow(surface: pygame.Surface, glow: pygame.Surface, center) -> None:
+def blit_glow(surface: pygame.Surface, glow: pygame.Surface, center: tuple[float, float] | pygame.Vector2) -> None:
     surface.blit(glow, glow.get_rect(center=center), special_flags=pygame.BLEND_ADD)
 
-def render_glow_text(surface: pygame.Surface, font: pygame.font.Font, text: str, color: str, **rect_position) -> None:
+def render_glow_text(surface: pygame.Surface, font: pygame.font.Font, text: str, color: str, **rect_position: tuple[int, int]) -> None:
     text_surface = font.render(text, True, color)
     rect = text_surface.get_rect(**rect_position)
 

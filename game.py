@@ -3,22 +3,19 @@ from pygame import Vector2
 from player import Player
 from box import Box
 from neon import render_glow_text
+from background import make_background
 
 class Game:
     SCREEN_WIDTH = 1000
     SCREEN_HEIGHT = 1000
-    BACKGROUND_COLOR = "#07071a"
-    GRID_COLOR = "#16163d"
-    GRID_ACCENT_COLOR = "#26265e"
-    GRID_SIZE = 50
-    
+
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.running = True
         self.font = pygame.font.SysFont("consolas", 48, bold=True)
-        self.background = self.make_background()
+        self.background = make_background(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
         self.player1 = Player("#ff2a6d", Vector2(self.SCREEN_WIDTH / 2 - 200, self.SCREEN_HEIGHT / 2))
         self.player2 = Player("#05d9e8", Vector2(self.SCREEN_WIDTH / 2 + 200, self.SCREEN_HEIGHT / 2))
@@ -28,17 +25,6 @@ class Game:
             Box("#b026ff", Vector2(self.SCREEN_WIDTH / 2 - 50, 250), 100, 100),
             Box("#b026ff", Vector2(self.SCREEN_WIDTH / 2 - 50, 650), 100, 100),
         ]
-
-    def make_background(self) -> pygame.Surface:
-        background = pygame.Surface((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
-        background.fill(self.BACKGROUND_COLOR)
-        for x in range(0, self.SCREEN_WIDTH, self.GRID_SIZE):
-            color = self.GRID_ACCENT_COLOR if x % (self.GRID_SIZE * 5) == 0 else self.GRID_COLOR
-            pygame.draw.line(background, color, (x, 0), (x, self.SCREEN_HEIGHT))
-        for y in range(0, self.SCREEN_HEIGHT, self.GRID_SIZE):
-            color = self.GRID_ACCENT_COLOR if y % (self.GRID_SIZE * 5) == 0 else self.GRID_COLOR
-            pygame.draw.line(background, color, (0, y), (self.SCREEN_WIDTH, y))
-        return background
 
     def run(self) -> None:
         while self.running:
