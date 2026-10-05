@@ -1,9 +1,9 @@
 import math
 import pygame
-from box import Box
+from game.box import Box
 from pygame import Vector2
-from game_object import GameObject
-from neon import make_circle_glow, blit_glow, scale_color
+from game.game_object import GameObject
+from game.neon import make_circle_glow, blit_glow, scale_color
 from collections import deque
 
 class Player(GameObject):

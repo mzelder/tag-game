@@ -1,9 +1,9 @@
 import pygame
 from pygame import Vector2
-from player import Player
-from box import Box
-from neon import render_glow_text
-from background import make_background
+from game.player import Player
+from game.box import Box
+from game.neon import render_glow_text
+from game.background import make_background
 
 class Game:
     SCREEN_WIDTH = 1000

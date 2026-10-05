@@ -1,7 +1,7 @@
 import pygame
 from pygame import Vector2
-from game_object import GameObject
-from neon import make_rect_glow, blit_glow
+from game.game_object import GameObject
+from game.neon import make_rect_glow, blit_glow
 
 class Box(GameObject):
     FILL_COLOR = "#0d0221"
