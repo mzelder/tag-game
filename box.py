@@ -1,7 +1,6 @@
 import pygame
 from pygame import Vector2
 from game_object import GameObject
-from player import Player
 from neon import make_rect_glow, blit_glow
 
 class Box(GameObject):
@@ -18,8 +17,3 @@ class Box(GameObject):
         blit_glow(surface, self.glow, self.rect.center)
         pygame.draw.rect(surface, self.FILL_COLOR, self.rect, border_radius=6)
         pygame.draw.rect(surface, self.color, self.rect, 2, border_radius=6)
-
-    def colide(self, player: Player) -> bool:
-        closest_x = max(self.rect.left, min(player.position.x, self.rect.right))
-        closest_y = max(self.rect.top, min(player.position.y, self.rect.bottom))
-        return player.position.distance_to(Vector2(closest_x, closest_y)) <= player.radius

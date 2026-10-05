@@ -1,9 +1,10 @@
 import math
-from collections import deque
 import pygame
+from box import Box
 from pygame import Vector2
 from game_object import GameObject
 from neon import make_circle_glow, blit_glow, scale_color
+from collections import deque
 
 class Player(GameObject):
     TRAIL_LENGTH = 14
@@ -40,8 +41,18 @@ class Player(GameObject):
     def update_trail(self) -> None:
         self.trail.append(Vector2(self.position))
 
-    def colide(self, other: Player) -> bool:
-        return self.position.distance_to(other.position) <= self.radius + other.radius
+    def colide(self, other: GameObject) -> bool:
+        if isinstance(other, Player):
+            return self.position.distance_to(other.position) <= self.radius + other.radius
+        if isinstance(other, Box):
+            closest_x = max(other.rect.left, min(self.position.x, other.rect.right))
+            closest_y = max(other.rect.top, min(self.position.y, other.rect.bottom))
+            return self.position.distance_to(Vector2(closest_x, closest_y)) <= self.radius
+        raise TypeError(f"can't collide Player with {type(other).__name__}")
+
+    def is_inside(self, rect: pygame.Rect) -> bool:
+        return (rect.left + self.radius <= self.position.x <= rect.right - self.radius and
+                rect.top + self.radius <= self.position.y <= rect.bottom - self.radius)
 
     def restart_to_starting_position(self) -> None:
         self.position = Vector2(self.starting_position)

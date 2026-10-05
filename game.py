@@ -31,7 +31,7 @@ class Game:
             self.handle_events()
             self.save_positions()
             self.handle_input()
-            self.check_box_collisions()
+            self.check_collisions()
             self.check_tag()
             self.update_trails()
 
@@ -64,12 +64,20 @@ class Game:
         if keys[pygame.K_LEFT]: self.player2.move_left()
         if keys[pygame.K_RIGHT]: self.player2.move_right()
 
-    def check_box_collisions(self) -> None:
+    def check_collisions(self) -> None:
+        #box collisions
         if self.colides_with_box(self.player1): self.player1.restore_position()
         if self.colides_with_box(self.player2): self.player2.restore_position()
 
+        #window boundary collisions
+        if self.is_out_of_bounds(self.player1): self.player1.restore_position()
+        if self.is_out_of_bounds(self.player2): self.player2.restore_position()
+
     def colides_with_box(self, player: Player) -> bool:
-        return any(box.colide(player) for box in self.boxes)
+        return any(player.colide(box) for box in self.boxes)
+
+    def is_out_of_bounds(self, player: Player) -> bool:
+        return not player.is_inside(self.screen.get_rect())
 
     def check_tag(self) -> None:
         if self.player1.colide(self.player2):
